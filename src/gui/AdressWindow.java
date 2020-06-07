@@ -3,9 +3,17 @@ package gui;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
+
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import data.Address;
+
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class AdressWindow {
 
@@ -15,6 +23,8 @@ public class AdressWindow {
 	private Text txtOrt;
 	private Text txtPLZ;
 	private Text txtStra;
+	//
+	ArrayList<Address> addresslist = new ArrayList<Address>();
 
 	/**
 	 * Launch the application.
@@ -53,15 +63,43 @@ public class AdressWindow {
 		shell.setText("SWT Application");
 		
 		Button btnSpeichern = new Button(shell, SWT.NONE);
+		btnSpeichern.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//
+				Address a; // definition
+				a = new Address(); // neue Instanz
+				//
+				a.setVorname(getTxtVN().getText());
+				a.setNachname(getTxtNN().getText());
+				a.setOrt(getTxtOrt().getText());
+				a.setPLZ(getTxtPLZ().getText());
+				a.setStraße(getTxtStra().getText());
+				//
+				addresslist.add(a);
+				//
+				// löschen der Felder
+				getTxtVN().setText("");
+				getTxtNN().setText("");
+				getTxtOrt().setText("");
+				getTxtPLZ().setText("");
+				getTxtStra().setText("");
+			}
+		});
 		btnSpeichern.setBounds(10, 435, 105, 35);
 		btnSpeichern.setText("Speichern");
 		
-		Button btnNewButton = new Button(shell, SWT.NONE);
-		btnNewButton.setBounds(237, 435, 232, 35);
-		btnNewButton.setText("Laden aus Datei");
+		Button btnLaden = new Button(shell, SWT.NONE);
+		btnLaden.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		btnLaden.setBounds(121, 435, 232, 35);
+		btnLaden.setText("Laden aus Datei");
 		
 		Button btnSchreiben = new Button(shell, SWT.NONE);
-		btnSchreiben.setBounds(588, 435, 250, 35);
+		btnSchreiben.setBounds(368, 435, 250, 35);
 		btnSchreiben.setText("Schreiben in Datei");
 		
 		Label lblVN = new Label(shell, SWT.NONE);
@@ -98,6 +136,23 @@ public class AdressWindow {
 		
 		txtStra = new Text(shell, SWT.BORDER);
 		txtStra.setBounds(130, 218, 80, 31);
+		
+		Button btnListe = new Button(shell, SWT.NONE);
+		btnListe.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//System.out.println(addresslist);
+				System.out.println("-----Liste start-----");
+				//
+				for (Address a : addresslist) { 
+					System.out.println(a);
+				}
+				//
+				System.out.println("-----");
+			}
+		});
+		btnListe.setBounds(624, 435, 138, 35);
+		btnListe.setText("Liste ausgeben");
 
 	}
 	public Text getTxtVN() {
