@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
@@ -12,6 +13,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 import data.Address;
 
@@ -108,7 +111,15 @@ public class AdressWindow {
 			public void widgetSelected(SelectionEvent e) {
 				
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				Gson.toJson(addresslist, new FileWriter("address.json"));
+				try {
+					gson.toJson(addresslist, new FileWriter("address.json"));
+				} catch (JsonIOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnSchreiben.setBounds(368, 435, 250, 35);
